@@ -2,17 +2,47 @@ import { NgModule, Component } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { platformBrowserDynamic } from "@angular/platform-browser-dynamic";
 
+// article model
+class Article {
+    title: string;
+    link: string;
+    votes: number;
+
+    constructor(title: string, link: string, votes?: number) {
+        this.title = title;
+        this.link = link;
+        this.votes = votes || 0;
+    }
+
+    voteUp() {
+        this.votes += 1;
+    }
+
+    voteDown() {
+        this.votes -= 1;
+    }
+
+    domain(): string {
+        try {
+            const link: string = this.link.split('//')[1];
+            return link.split('/')[0];
+        } catch (err) {
+            return null;
+        }
+    }
+}
+
 // article component
 @Component({
     selector: 'reddit-article',
     host: {
         class: 'row'
     },
-    template:`
+    template: `
         <div class="four wide column center aligned votes">
             <div class="ui statistic">
                 <div class="value">
-                    {{ votes }}
+                    {{ article.votes }}
                 </div>
                 <div class="label">
                     Points
@@ -20,8 +50,8 @@ import { platformBrowserDynamic } from "@angular/platform-browser-dynamic";
             </div>
         </div>
         <div class="twelve wide column">
-            <a class="ui large header" href="{{ link }}">
-                {{ title }}
+            <a class="ui large header" href="{{ article.link }}">
+                {{ article.title }}
             </a>
             <ul class="ui big horizontal list voters">
                 <li class="item">
@@ -39,23 +69,19 @@ import { platformBrowserDynamic } from "@angular/platform-browser-dynamic";
     `
 })
 class ArticleComponent {
-    votes: number;
-    title: string;
-    link: string;
+    article: Article;
 
     constructor() {
-        this.title = 'Angular 2';
-        this.link = 'http://angular.io';
-        this.votes = 10;
+        this.article = new Article('Angular 2', 'http://angular.io', 10);
     }
 
     voteUp() {
-        this.votes += 1;
+        this.article.voteUp();
         return false;
     }
 
     voteDown() {
-        this.votes -=1;
+        this.article.voteDown();
         return false;
     }
 }
@@ -89,7 +115,7 @@ class RedditApp {
     // TODO: finish out addArticle function
     addArticle(title: HTMLInputElement, link: HTMLInputElement): boolean {
         console.log(`
-            Adding article title: ${ title.value } and link: ${ link.value }
+            Adding article title: ${ title.value} and link: ${link.value}
         `);
         return false;
     }
