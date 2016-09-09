@@ -120,6 +120,13 @@ class RedditApp {
             new Article('Angular Homepage', 'http://angular.io', 1)
         ];
     }
+
+    addArticle(title: HTMLInputElement, link:HTMLInputElement): boolean {
+        this.articles.push(new Article(title.value, link.value, 0));
+        title.value = '';
+        link.value = '';
+        return false;
+    }
 }
 
 @NgModule({
