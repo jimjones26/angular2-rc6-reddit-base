@@ -73,12 +73,12 @@ class Article {
 class ArticleComponent {
     article: Article;
 
-    voteUp() {
+    voteUp(): boolean {
         this.article.voteUp();
         return false;
     }
 
-    voteDown() {
+    voteDown(): boolean {
         this.article.voteDown();
         return false;
     }
@@ -136,13 +136,12 @@ class RedditApp {
 
 @NgModule({
     declarations: [
-        RedditApp, ArticleComponent
+        RedditApp,
+        ArticleComponent
     ],
     imports: [BrowserModule],
     bootstrap: [RedditApp],
 })
-class RedditAppModule {
-
-}
+class RedditAppModule {}
 
 platformBrowserDynamic().bootstrapModule(RedditAppModule);
