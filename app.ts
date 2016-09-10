@@ -106,7 +106,7 @@ class ArticleComponent {
         </form>
         <div class="ui grid posts">
             <reddit-article 
-                *ngFor="let article of articles"
+                *ngFor="let article of sortedArticles()"
                 [article]="article"></reddit-article>
         </div>
     `
@@ -127,6 +127,10 @@ class RedditApp {
         title.value = '';
         link.value = '';
         return false;
+    }
+
+    sortedArticles(): Article[] {
+        return this.articles.sort((a: Article, b: Article) => b.votes - a.votes);
     }
 }
 
